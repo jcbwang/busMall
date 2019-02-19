@@ -1,4 +1,6 @@
-#User Stories
+#
+User Stories
+
 Considering the multiple views involved in order to view the app from multiple perspectives.
 
 ## 

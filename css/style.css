@@ -1,57 +1,23 @@
-header>img{
-  margin-left: 30px;
-  width:200px;
+h1{
+  font-size:40px;
+  text-align: center;
 }
-header>h1{
-  display:inline;
-  font-size:25px;
-  
-}
-header>nav{
-  float:right;
-  margin-right:30px;
-}
-header>nav>ul>li{
+#product-container>div{
   display:inline-block;
-  padding:60px;
-}
-img{
-  width:200px;
-  height:200;
-
-}
-section>div{
-  display: inline;
-}
-main>section{
-  padding:20px;
-}
-#products-and-descriptions{
-  display: inline;
-  width:1000px;
-  margin-left: 50px;
-}
-#results>ul>li{
-  list-style-type:none;
   padding:10px;
 }
-main{
-  margin-top:50px;
-}
-#results{
-  float:left;
-  margin-right:180px;
-  margin-top:60px;
-}
-#results>ul>span{
-  font-weight: bold;
-}
-h2{
-  font-size: 20px;
-  width:300px;
-  margin:0;
+#product-container>div>img{
+  width:200px; 
 }
 
-#products>div{
-  float:right;
+#chart{
+  width: 700px;
+  height: 500px;
+}
+#product-container{
+  padding-left:160px;
+}
+body{
+  width:950px;
+  margin:auto;
 }

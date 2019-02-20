@@ -70,6 +70,12 @@ var display_results = function(){
   target.appendChild(ul_el);
 };
 
+
+// if(localStorage.getItem('results_array')){
+//   var target = document.getElementById('results');
+//   var li_el.textContent = 
+// }
+
 //render product_chart function
 
 var product_click_results = [];
@@ -160,14 +166,10 @@ var handle_click_on_product = function(event){
   if(event.target.tagName === 'IMG'){
     if(event.target.id==='left-product-img'){
       currently_displayed_left_product.click_counter++;
-      console.log('clicked left');
-      console.log(currently_displayed_left_product, currently_displayed_left_product.click_counter);
     } else if(event.target.id === 'middle-product-img'){
       currently_displayed_middle_product.click_counter++;
-      console.log('clicked middle');
     }else if (event.target.id === 'right-product-img'){
       currently_displayed_right_product.click_counter++;
-      console.log('clicked right');
     }
     NUMBER_OF_GUESSES --;
     pick_new_products();
@@ -222,17 +224,20 @@ if (localStorage.getItem('products_array')){
 //check if storage has past results. If it exists, display the past results at the bottom. If not, create new results.
 
 
-currently_displayed_left_product = products_array[0];
-currently_displayed_middle_product = products_array[1];
-currently_displayed_right_product = products_array[2];
+// currently_displayed_left_product = products_array[0];
+// currently_displayed_middle_product = products_array[1];
+// currently_displayed_right_product = products_array[2];
 
-render_product(products_array[0],left_img,left_h2);
-render_product(products_array[1],middle_img,middle_h2);
-render_product(products_array[2],right_img,right_h2);
+// render_product(products_array[0],left_img,left_h2);
+// render_product(products_array[1],middle_img,middle_h2);
+// render_product(products_array[2],right_img,right_h2);
 
-products_array[0].display_counter= 1;
-products_array[1].display_counter = 1;
-products_array[2].display_counter = 1;
+// products_array[0].display_counter= 1;
+// products_array[1].display_counter = 1;
+// products_array[2].display_counter = 1;
+
+
+pick_new_products();
 
 
 //render results

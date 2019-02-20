@@ -1,11 +1,11 @@
 
 
 // //global variables:
-var NUMBER_OF_GUESSES = 25;
+var NUMBER_OF_GUESSES = 5;
 
 var products_array = [];
 
-var product_names = [];
+var results_array = [];
 
 var all_products = document.getElementById('product-container');
 
@@ -30,7 +30,6 @@ var Product = function(name, url){
   this.display_counter = 0;
 
   products_array.push(this);
-  product_names.push(name);
 };
 
 //render product
@@ -56,6 +55,21 @@ var pick_new_products = function(){
   render_product(products_array[right_product_index],right_img,right_h2);
 };
 
+//display results
+var display_results = function(){
+  var target = document.getElementById('results');
+  var ul_el = document.createElement('ul');
+  ul_el.id = 'results-ul';
+
+  for(var k = 0; k < products_array.length; k++){
+    var li_el = document.createElement('li');
+    li_el.textContent = `${products_array[k].name}: ${products_array[k].click_counter}/${products_array[k].display_counter}`;
+    ul_el.appendChild(li_el);
+    results_array.push(li_el.textContent);
+  }
+  target.appendChild(ul_el);
+};
+
 //render product_chart function
 
 var product_click_results = [];
@@ -65,77 +79,76 @@ var render_product_chart = function(){
   var ctx = document.getElementById("myChart").getContext('2d');
 
   for(var i = 0; i < products_array.length; i++){
-    console.log('hello');
     product_click_results.push(products_array[i].click_counter);
   }
   render_chart(product_click_results,ctx);
-
 };
 
 var render_chart = function(data,ctx){
   var myChart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: product_names,
-    datasets: [{
-      label: 'Product Vote Results',
-      data: product_click_results,
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)'
-      ],
-      borderColor: [
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)'
-      ],
-      borderWidth: 1
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero:true
-        }
+    type: 'bar',
+    data: {
+      labels: ['bag','bathroom','banana','boots','breakfast','bubblegum','chair','figure','duck','dragon','pen','pet sweeper','scissors','shark','baby','snuggly','unicorn','USB','water can','wine glass']
+      ,
+      datasets: [{
+        label: 'Product Vote Results',
+        data: product_click_results,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)'
+        ],
+        borderWidth: 1
       }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero:true
+          }
+        }]
+      }
     }
-  }
   });
 };
 
@@ -163,31 +176,20 @@ var handle_click_on_product = function(event){
       all_products.removeEventListener('click',handle_click_on_product);
 
       render_product_chart();
+      display_results();
 
-      var stringy_products = JSON.stringify(products_array); //saving product array data
+      var stringy_products = JSON.stringify(products_array); //transform products array into string
       localStorage.setItem('products_array', stringy_products); // store stringy products into local storage
-      console.log('products array saved into Local storage');
+      console.log('products array saved into local storage');
 
-      
-      var target = document.getElementById('results');
-      var ul_el = document.createElement('ul');
-      ul_el.id = 'results-ul';
-
-
-      //display results
-      for(var k = 0; k < products_array.length; k++){
-        var li_el = document.createElement('li');
-        li_el.textContent = `${products_array[k].name}: ${products_array[k].click_counter}/${products_array[k].display_counter}`;
-        ul_el.appendChild(li_el);
-      }
-      target.appendChild(ul_el);
+      var stringy_results = JSON.stringify(results_array); //transform results array into string
+      localStorage.setItem('results_array', stringy_results); //store stringy results into local storage.
+      console.log('results array saved into local storage');
     }
   }
 };
 
-
-
-//init
+//check if products array exists in local storage, if not, create new products.
 
 if (localStorage.getItem('products_array')){
   var stringy_products = localStorage.getItem('products_array');
@@ -216,6 +218,8 @@ if (localStorage.getItem('products_array')){
   new Product ('Watering can','./img/water-can.jpg');
   new Product ('Wine Glass','./img/wine-glass.jpg');
 }
+
+//check if storage has past results. If it exists, display the past results at the bottom. If not, create new results.
 
 
 currently_displayed_left_product = products_array[0];

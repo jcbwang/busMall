@@ -7,69 +7,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href = "css/reset.css">
   <link rel="stylesheet" type="text/css" media="screen" href="css/style.css">
-  <script src="app.js"></script>
+  <script src="Chart.min.js"></script>
 </head>
 
 <body>
-  <header>
-    <img src="img/bus.jpg" alt="bus">
-    <h1>Bus Mall Products</h1>
-    <nav>
-      <ul>
-        <li>Home</li>
-        <li>Products</li>
-        <li>About</li>
-        <li>Contact</li>
-      </ul>
-    </nav>
-  </header>
+  <section id = "results">
+    
+  </section>
+  <section>
+    <h1>Please vote for a product</h1>
+      <section id="product-container">
+        <div id="left-product">
+          <img id="left-product-img"src="" alt="product"> 
+          <h2 id="left-product-h2"></h2>
+        </div>  
 
-  <main>
-      <div id="results">
-          <ul>
-            <span>Results</span>
-              <li>image1:</li>
-              <li>image2:</li>
-              <li>image3:</li>
-              <li>image4:</li>
-              <li>image5:</li>
-              <li>image6:</li>
-              <li>image7:</li>
-              <li>image8:</li>
-              <li>image9:</li>
-          </ul>
-        </div>
+        <div id ="middle-product">
+          <img id="middle-product-img"src="" alt="product"> 
+          <h2 id="middle-product-h2"></h2>
+        </div>   
+
+        <div id="right-product">
+          <img id="right-product-img"src="" alt="product"> 
+          <h2 id="right-product-h2"></h2>
+        </div>          
+      </section>
+  </section>
+
+  <section id="chart">
+    <canvas id = "myChart" width=500 height =500></canvas>
+  </section>
     
-      <div id="products-and-descriptions">
-          <section id="products">
-              <div id="left-product">
-                <img id="left-product-img"src="img/bag.jpg" alt="product"> 
-                <h2 id="left-product-h2">Luggage bags</h2>
-                <!-- <input type="radio"> -->
-              </div>  
-              <div id ="middle-product">
-                <img id="middle-product-img"src="img/bathroom.jpg" alt="product"> 
-                <h2 id="middle-product-h2">Bathroom stand</h2>
-                <!-- <input type="radio"> -->
-              </div>   
-              <div id="right-product">
-                <img id="right-product-img"src="img/banana.jpg" alt="product"> 
-                <h2>Banana cutter</h2>
-                <!-- <input id="right-product-h2"type="radio"> -->
-              </div>  
-              
-          </section>
-          <!-- <div id="button">
-            <button>Vote!</button>
-          </div> -->
-            <!-- <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quaerat assumenda doloremque quibusdam, aspernatur dolorem eum voluptas esse eos corporis odit dolore, laborum debitis quis. Nemo, tenetur id accusamus sunt nihil eos qui aliquam unde consectetur nesciunt beatae quos magnam quae eaque, quis mollitia maxime ipsa possimus modi. Voluptatem repellat distinctio incidunt delectus tempora, quisquam molestiae nesciunt fugit ab reiciendis veritatis dolorum, molestias illo, labore quibusdam ut consequuntur tenetur eaque illum nobis quidem! Rem ea ipsum sapiente maiores tenetur sed.
-            </p> -->
-        </div>
-    
-    
-  </main>
   
+  <script src="app.js"></script>
 </body>
 
 </html>

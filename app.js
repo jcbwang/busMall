@@ -1,17 +1,16 @@
 
 
 // //global variables:
-var NUMBER_OF_GUESSES = 5;
+var NUMBER_OF_GUESSES = 25;
 
 var products_array = [];
-
-var results_array = [];
 
 var all_products = document.getElementById('product-container');
 
 var left_h2 = document.getElementById('left-product-h2');
 var middle_h2 = document.getElementById('middle-product-h2');
 var right_h2 = document.getElementById('right-product-h2');
+
 var right_img = document.getElementById('right-product-img');
 var middle_img = document.getElementById('middle-product-img');
 var left_img = document.getElementById('left-product-img');
@@ -38,22 +37,34 @@ var render_product = function(product, target_img, target_h2){
   target_h2.textContent = product.name;
 };
 
-//randomize index of products_array, assign it to the currently_displayed product, increment display counter, and render product.
 var pick_new_products = function(){
-  var left_product_index = Math.floor(Math.random()*products_array.length);
-  currently_displayed_left_product = products_array[left_product_index];
+  //create three new arrays for left middle and right so no items repeat.
+  // var left_items = products_array.splice(0,7);
+  // var middle_items = products_array.splice(0,7);
+  // var right_items = products_array.splice(0,6);
+
+  console.log(left_items);
+  console.log(middle_items);
+  console.log(right_items);
+
+  //pick random index out of left, middle, or right array
+
+  var left_product_index = Math.floor(Math.random()*left_items.length);
+  currently_displayed_left_product = left_items[left_product_index];
   currently_displayed_left_product.display_counter++;
-  render_product(products_array[left_product_index],left_img,left_h2);
+  render_product(left_items[left_product_index],left_img,left_h2);
 
-  var middle_product_index = Math.floor(Math.random()*products_array.length);
-  currently_displayed_middle_product = products_array[middle_product_index];
+
+  var middle_product_index = Math.floor(Math.random()*middle_items.length);
+  currently_displayed_middle_product = middle_items[middle_product_index];
   currently_displayed_middle_product.display_counter++;
-  render_product(products_array[middle_product_index],middle_img,middle_h2);
+  render_product(middle_items[middle_product_index],middle_img,middle_h2);
 
-  var right_product_index = Math.floor(Math.random()*products_array.length);currently_displayed_right_product = products_array[right_product_index];
+  var right_product_index = Math.floor(Math.random()*right_items.length);currently_displayed_right_product = right_items[right_product_index];
   currently_displayed_right_product.display_counter++;
-  render_product(products_array[right_product_index],right_img,right_h2);
+  render_product(right_items[right_product_index],right_img,right_h2);
 };
+
 
 //display results
 var display_results = function(){
@@ -65,16 +76,9 @@ var display_results = function(){
     var li_el = document.createElement('li');
     li_el.textContent = `${products_array[k].name}: ${products_array[k].click_counter}/${products_array[k].display_counter}`;
     ul_el.appendChild(li_el);
-    results_array.push(li_el.textContent);
   }
   target.appendChild(ul_el);
 };
-
-
-// if(localStorage.getItem('results_array')){
-//   var target = document.getElementById('results');
-//   var li_el.textContent = 
-// }
 
 //render product_chart function
 
@@ -183,10 +187,6 @@ var handle_click_on_product = function(event){
       var stringy_products = JSON.stringify(products_array); //transform products array into string
       localStorage.setItem('products_array', stringy_products); // store stringy products into local storage
       console.log('products array saved into local storage');
-
-      var stringy_results = JSON.stringify(results_array); //transform results array into string
-      localStorage.setItem('results_array', stringy_results); //store stringy results into local storage.
-      console.log('results array saved into local storage');
     }
   }
 };
@@ -196,6 +196,9 @@ var handle_click_on_product = function(event){
 if (localStorage.getItem('products_array')){
   var stringy_products = localStorage.getItem('products_array');
   products_array = JSON.parse(stringy_products);
+  var left_items = products_array.splice(0,7);
+  var middle_items = products_array.splice(0,7);
+  var right_items = products_array.splice(0,6);
   console.log('retrieved products from local storage');
 } else{
 
@@ -219,28 +222,17 @@ if (localStorage.getItem('products_array')){
   new Product ('USB','./img/usb.gif');
   new Product ('Watering can','./img/water-can.jpg');
   new Product ('Wine Glass','./img/wine-glass.jpg');
+  left_items = products_array.splice(0,7);
+  middle_items = products_array.splice(0,7);
+  right_items = products_array.splice(0,6);
 }
 
-//check if storage has past results. If it exists, display the past results at the bottom. If not, create new results.
-
-
-// currently_displayed_left_product = products_array[0];
-// currently_displayed_middle_product = products_array[1];
-// currently_displayed_right_product = products_array[2];
-
-// render_product(products_array[0],left_img,left_h2);
-// render_product(products_array[1],middle_img,middle_h2);
-// render_product(products_array[2],right_img,right_h2);
-
-// products_array[0].display_counter= 1;
-// products_array[1].display_counter = 1;
-// products_array[2].display_counter = 1;
-
-
 pick_new_products();
+
 
 
 //render results
 all_products.addEventListener('click',handle_click_on_product);
 
+console.log(products_array);
 

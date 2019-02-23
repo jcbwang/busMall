@@ -38,10 +38,8 @@ var render_product = function(product, target_img, target_h2){
 };
 
 var pick_new_products = function(){
+
   //create three new arrays for left middle and right so no items repeat.
-  // var left_items = products_array.splice(0,7);
-  // var middle_items = products_array.splice(0,7);
-  // var right_items = products_array.splice(0,6);
 
   console.log(left_items);
   console.log(middle_items);
@@ -60,21 +58,34 @@ var pick_new_products = function(){
   currently_displayed_middle_product.display_counter++;
   render_product(middle_items[middle_product_index],middle_img,middle_h2);
 
-  var right_product_index = Math.floor(Math.random()*right_items.length);currently_displayed_right_product = right_items[right_product_index];
+  var right_product_index = Math.floor(Math.random()*right_items.length);
+  currently_displayed_right_product = right_items[right_product_index];
   currently_displayed_right_product.display_counter++;
   render_product(right_items[right_product_index],right_img,right_h2);
 };
 
 
 //display results
+
 var display_results = function(){
   var target = document.getElementById('results');
   var ul_el = document.createElement('ul');
   ul_el.id = 'results-ul';
 
-  for(var k = 0; k < products_array.length; k++){
+  for(var k = 0; k < left_items.length; k++){
     var li_el = document.createElement('li');
-    li_el.textContent = `${products_array[k].name}: ${products_array[k].click_counter}/${products_array[k].display_counter}`;
+    li_el.textContent = `${left_items[k].name}: ${left_items[k].click_counter}/${left_items[k].display_counter}`;
+    ul_el.appendChild(li_el);
+  }
+  for(var l = 0; l < middle_items.length; l++){
+    li_el = document.createElement('li');
+    li_el.textContent = `${middle_items[l].name}: ${middle_items[l].click_counter}/${middle_items[l].display_counter}`;
+    ul_el.appendChild(li_el);
+  }
+
+  for(var m = 0; m < right_items.length; m++){
+    li_el = document.createElement('li');
+    li_el.textContent = `${right_items[m].name}: ${right_items[m].click_counter}/${right_items[m].display_counter}`;
     ul_el.appendChild(li_el);
   }
   target.appendChild(ul_el);
@@ -88,21 +99,27 @@ var render_product_chart = function(){
 
   var ctx = document.getElementById("myChart").getContext('2d');
 
-  for(var i = 0; i < products_array.length; i++){
-    product_click_results.push(products_array[i].click_counter);
+  for(var i = 0; i < left_items.length; i++){
+    product_click_results.push(left_items[i].click_counter);
+  }
+  for(var j = 0; j < middle_items.length; j++){
+    product_click_results.push(middle_items[j].click_counter);
+  }
+  for(var k = 0; k < right_items.length; k++){
+    product_click_results.push(right_items[k].click_counter);
   }
   render_chart(product_click_results,ctx);
 };
 
 var render_chart = function(data,ctx){
-  var myChart = new Chart(ctx, {
+  var myChart = new Chart(ctx,{
     type: 'bar',
     data: {
       labels: ['bag','bathroom','banana','boots','breakfast','bubblegum','chair','figure','duck','dragon','pen','pet sweeper','scissors','shark','baby','snuggly','unicorn','USB','water can','wine glass']
       ,
       datasets: [{
         label: 'Product Vote Results',
-        data: product_click_results,
+        data: product_click_results ,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -184,24 +201,32 @@ var handle_click_on_product = function(event){
       render_product_chart();
       display_results();
 
-      var stringy_products = JSON.stringify(products_array); //transform products array into string
-      localStorage.setItem('products_array', stringy_products); // store stringy products into local storage
+      var stringy_left_items = JSON.stringify(left_items); //transform products array into string
+      localStorage.setItem('left_items', stringy_left_items); // store stringy products into local storage
       console.log('products array saved into local storage');
-    }
+      var stringy_middle_items = JSON.stringify(middle_items);
+      localStorage.setItem('middle_items', stringy_middle_items);
+      var stringy_right_items = JSON.stringify(right_items);
+      localStorage.setItem('right_items',stringy_right_items);    }
   }
 };
 
 //check if products array exists in local storage, if not, create new products.
 
-if (localStorage.getItem('products_array')){
-  var stringy_products = localStorage.getItem('products_array');
-  products_array = JSON.parse(stringy_products);
-  var left_items = products_array.splice(0,7);
-  var middle_items = products_array.splice(0,7);
-  var right_items = products_array.splice(0,6);
-  console.log('retrieved products from local storage');
-} else{
-
+if (localStorage.getItem('left_items')){
+  var stringy_left_products = localStorage.getItem('left_items');
+  left_items = JSON.parse(stringy_left_products);
+  console.log(left_items);}
+if(localStorage.getItem('middle_items')){
+  var stringy_middle_products = localStorage.getItem('middle_items');
+  middle_items = JSON.parse(stringy_middle_products);}
+if(localStorage.getItem('right_items')){
+  var stringy_right_products = localStorage.getItem('right_items');
+  right_items = JSON.parse(stringy_right_products);}
+// var left_items = products_array.splice(0,7);
+// var middle_items = products_array.splice(0,7);
+// var right_items = products_array.splice(0,6);
+else{
   new Product ('Luggage bags', './img/bag.jpg');
   new Product ('Bathroom Stand','./img/bathroom.jpg');
   new Product ('Banana Cutter','./img/banana.jpg');
@@ -222,9 +247,9 @@ if (localStorage.getItem('products_array')){
   new Product ('USB','./img/usb.gif');
   new Product ('Watering can','./img/water-can.jpg');
   new Product ('Wine Glass','./img/wine-glass.jpg');
-  left_items = products_array.splice(0,7);
-  middle_items = products_array.splice(0,7);
-  right_items = products_array.splice(0,6);
+  var left_items = products_array.splice(0,7);
+  var middle_items = products_array.splice(0,7);
+  var right_items = products_array.splice(0,6);
 }
 
 pick_new_products();
@@ -233,6 +258,4 @@ pick_new_products();
 
 //render results
 all_products.addEventListener('click',handle_click_on_product);
-
-console.log(products_array);
 

@@ -39,12 +39,6 @@ var render_product = function(product, target_img, target_h2){
 
 var pick_new_products = function(){
 
-  //create three new arrays for left middle and right so no items repeat.
-
-  console.log(left_items);
-  console.log(middle_items);
-  console.log(right_items);
-
   //pick random index out of left, middle, or right array
 
   var left_product_index = Math.floor(Math.random()*left_items.length);
@@ -111,6 +105,7 @@ var render_product_chart = function(){
   render_chart(product_click_results,ctx);
 };
 
+
 var render_chart = function(data,ctx){
   var myChart = new Chart(ctx,{
     type: 'bar',
@@ -121,26 +116,26 @@ var render_chart = function(data,ctx){
         label: 'Product Vote Results',
         data: product_click_results ,
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)'
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(153, 102, 255, 0.6)',
+          'rgba(255, 159, 64, 0.6)',
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(153, 102, 255, 0.6)',
+          'rgba(255, 159, 64, 0.6)',
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(153, 102, 255, 0.6)',
+          'rgba(255, 159, 64, 0.6)',
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)'
         ],
         borderColor: [
           'rgba(255,99,132,1)',
@@ -171,7 +166,14 @@ var render_chart = function(data,ctx){
       scales: {
         yAxes: [{
           ticks: {
-            beginAtZero:true
+            fontColor:'white',
+            beginAtZero:true,
+            callback: function (value) { if (Number.isInteger(value)) { return value; } },
+          }
+        }],
+        xAxes:[{
+          ticks:{
+            fontColor:'white',
           }
         }]
       }
@@ -194,11 +196,15 @@ var handle_click_on_product = function(event){
     }
     NUMBER_OF_GUESSES --;
     pick_new_products();
+    render_click_countdown();
+
 
     if(NUMBER_OF_GUESSES <= 0){
       all_products.removeEventListener('click',handle_click_on_product);
+      all_products.removeEventListener('mousedown',handle_color);
 
       render_product_chart();
+      remove_click_counter();
       display_results();
 
       var stringy_left_items = JSON.stringify(left_items); //transform products array into string
@@ -207,25 +213,58 @@ var handle_click_on_product = function(event){
       var stringy_middle_items = JSON.stringify(middle_items);
       localStorage.setItem('middle_items', stringy_middle_items);
       var stringy_right_items = JSON.stringify(right_items);
-      localStorage.setItem('right_items',stringy_right_items);    }
+      localStorage.setItem('right_items',stringy_right_items);
+    }
   }
 };
+
+var click_countdown_target = document.getElementById('vote-counter');
+
+var render_click_countdown = function(){
+  click_countdown_target.textContent = `${NUMBER_OF_GUESSES} votes left`;
+};
+
+var remove_click_counter = function(){
+  click_countdown_target.innerHTML='';
+};
+
+var handle_color = function(event){
+  if(event.target.tagName === 'IMG'){
+    if(event.target.id==='left-product-img'){
+      document.getElementById('left-product-img').style.border = 'dotted 10px yellow';
+    }if(event.target.id==='middle-product-img'){
+      document.getElementById('middle-product-img').style.border = 'dotted 10px yellow';
+    }if(event.target.id==='right-product-img'){
+      document.getElementById('right-product-img').style.border = 'dotted 10px yellow';
+    }
+  }
+};
+
+var white_color = function(event){
+  if(event.target.tagName === 'IMG'){
+    if(event.target.id==='left-product-img'){
+      document.getElementById('left-product-img').style.border = 'dotted 5px white';
+    }if(event.target.id==='middle-product-img'){
+      document.getElementById('middle-product-img').style.border = 'dotted 5px white';
+    }if(event.target.id==='right-product-img'){
+      document.getElementById('right-product-img').style.border = 'dotted 5px white';
+    }
+  }
+};
+
 
 //check if products array exists in local storage, if not, create new products.
 
 if (localStorage.getItem('left_items')){
   var stringy_left_products = localStorage.getItem('left_items');
-  left_items = JSON.parse(stringy_left_products);
-  console.log(left_items);}
+  left_items = JSON.parse(stringy_left_products);}
 if(localStorage.getItem('middle_items')){
   var stringy_middle_products = localStorage.getItem('middle_items');
   middle_items = JSON.parse(stringy_middle_products);}
 if(localStorage.getItem('right_items')){
   var stringy_right_products = localStorage.getItem('right_items');
   right_items = JSON.parse(stringy_right_products);}
-// var left_items = products_array.splice(0,7);
-// var middle_items = products_array.splice(0,7);
-// var right_items = products_array.splice(0,6);
+
 else{
   new Product ('Luggage bags', './img/bag.jpg');
   new Product ('Bathroom Stand','./img/bathroom.jpg');
@@ -247,6 +286,8 @@ else{
   new Product ('USB','./img/usb.gif');
   new Product ('Watering can','./img/water-can.jpg');
   new Product ('Wine Glass','./img/wine-glass.jpg');
+  
+  //create three new arrays for left middle and right so no items repeat.
   var left_items = products_array.splice(0,7);
   var middle_items = products_array.splice(0,7);
   var right_items = products_array.splice(0,6);
@@ -258,4 +299,12 @@ pick_new_products();
 
 //render results
 all_products.addEventListener('click',handle_click_on_product);
+
+all_products.addEventListener('mousedown',handle_color);
+
+all_products.addEventListener('mouseup',white_color);
+
+
+
+
 

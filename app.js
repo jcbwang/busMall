@@ -5,13 +5,12 @@ var NUMBER_OF_GUESSES = 25;
 
 var products_array = [];
 
-var product_names = [];
-
 var all_products = document.getElementById('product-container');
 
 var left_h2 = document.getElementById('left-product-h2');
 var middle_h2 = document.getElementById('middle-product-h2');
 var right_h2 = document.getElementById('right-product-h2');
+
 var right_img = document.getElementById('right-product-img');
 var middle_img = document.getElementById('middle-product-img');
 var left_img = document.getElementById('left-product-img');
@@ -30,7 +29,6 @@ var Product = function(name, url){
   this.display_counter = 0;
 
   products_array.push(this);
-  product_names.push(name);
 };
 
 //render product
@@ -39,21 +37,58 @@ var render_product = function(product, target_img, target_h2){
   target_h2.textContent = product.name;
 };
 
-//randomize index of products_array, assign it to the currently_displayed product, increment display counter, and render product.
 var pick_new_products = function(){
-  var left_product_index = Math.floor(Math.random()*products_array.length);
-  currently_displayed_left_product = products_array[left_product_index];
+
+  //create three new arrays for left middle and right so no items repeat.
+
+  console.log(left_items);
+  console.log(middle_items);
+  console.log(right_items);
+
+  //pick random index out of left, middle, or right array
+
+  var left_product_index = Math.floor(Math.random()*left_items.length);
+  currently_displayed_left_product = left_items[left_product_index];
   currently_displayed_left_product.display_counter++;
-  render_product(products_array[left_product_index],left_img,left_h2);
+  render_product(left_items[left_product_index],left_img,left_h2);
 
-  var middle_product_index = Math.floor(Math.random()*products_array.length);
-  currently_displayed_middle_product = products_array[middle_product_index];
+
+  var middle_product_index = Math.floor(Math.random()*middle_items.length);
+  currently_displayed_middle_product = middle_items[middle_product_index];
   currently_displayed_middle_product.display_counter++;
-  render_product(products_array[middle_product_index],middle_img,middle_h2);
+  render_product(middle_items[middle_product_index],middle_img,middle_h2);
 
-  var right_product_index = Math.floor(Math.random()*products_array.length);currently_displayed_right_product = products_array[right_product_index];
+  var right_product_index = Math.floor(Math.random()*right_items.length);
+  currently_displayed_right_product = right_items[right_product_index];
   currently_displayed_right_product.display_counter++;
-  render_product(products_array[right_product_index],right_img,right_h2);
+  render_product(right_items[right_product_index],right_img,right_h2);
+};
+
+
+//display results
+
+var display_results = function(){
+  var target = document.getElementById('results');
+  var ul_el = document.createElement('ul');
+  ul_el.id = 'results-ul';
+
+  for(var k = 0; k < left_items.length; k++){
+    var li_el = document.createElement('li');
+    li_el.textContent = `${left_items[k].name}: ${left_items[k].click_counter}/${left_items[k].display_counter}`;
+    ul_el.appendChild(li_el);
+  }
+  for(var l = 0; l < middle_items.length; l++){
+    li_el = document.createElement('li');
+    li_el.textContent = `${middle_items[l].name}: ${middle_items[l].click_counter}/${middle_items[l].display_counter}`;
+    ul_el.appendChild(li_el);
+  }
+
+  for(var m = 0; m < right_items.length; m++){
+    li_el = document.createElement('li');
+    li_el.textContent = `${right_items[m].name}: ${right_items[m].click_counter}/${right_items[m].display_counter}`;
+    ul_el.appendChild(li_el);
+  }
+  target.appendChild(ul_el);
 };
 
 //render product_chart function
@@ -64,78 +99,83 @@ var render_product_chart = function(){
 
   var ctx = document.getElementById("myChart").getContext('2d');
 
-  for(var i = 0; i < products_array.length; i++){
-    console.log('hello');
-    product_click_results.push(products_array[i].click_counter);
+  for(var i = 0; i < left_items.length; i++){
+    product_click_results.push(left_items[i].click_counter);
+  }
+  for(var j = 0; j < middle_items.length; j++){
+    product_click_results.push(middle_items[j].click_counter);
+  }
+  for(var k = 0; k < right_items.length; k++){
+    product_click_results.push(right_items[k].click_counter);
   }
   render_chart(product_click_results,ctx);
-
 };
 
 var render_chart = function(data,ctx){
-  var myChart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: product_names,
-    datasets: [{
-      label: 'Product Vote Results',
-      data: product_click_results,
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)'
-      ],
-      borderColor: [
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)'
-      ],
-      borderWidth: 1
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero:true
-        }
+  var myChart = new Chart(ctx,{
+    type: 'bar',
+    data: {
+      labels: ['bag','bathroom','banana','boots','breakfast','bubblegum','chair','figure','duck','dragon','pen','pet sweeper','scissors','shark','baby','snuggly','unicorn','USB','water can','wine glass']
+      ,
+      datasets: [{
+        label: 'Product Vote Results',
+        data: product_click_results ,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)'
+        ],
+        borderWidth: 1
       }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero:true
+          }
+        }]
+      }
     }
-  }
   });
 };
 
@@ -147,14 +187,10 @@ var handle_click_on_product = function(event){
   if(event.target.tagName === 'IMG'){
     if(event.target.id==='left-product-img'){
       currently_displayed_left_product.click_counter++;
-      console.log('clicked left');
-      console.log(currently_displayed_left_product, currently_displayed_left_product.click_counter);
     } else if(event.target.id === 'middle-product-img'){
       currently_displayed_middle_product.click_counter++;
-      console.log('clicked middle');
     }else if (event.target.id === 'right-product-img'){
       currently_displayed_right_product.click_counter++;
-      console.log('clicked right');
     }
     NUMBER_OF_GUESSES --;
     pick_new_products();
@@ -163,38 +199,34 @@ var handle_click_on_product = function(event){
       all_products.removeEventListener('click',handle_click_on_product);
 
       render_product_chart();
+      display_results();
 
-      var stringy_products = JSON.stringify(products_array); //saving product array data
-      localStorage.setItem('products_array', stringy_products); // store stringy products into local storage
-      console.log('products array saved into Local storage');
-
-      
-      var target = document.getElementById('results');
-      var ul_el = document.createElement('ul');
-      ul_el.id = 'results-ul';
-
-
-      //display results
-      for(var k = 0; k < products_array.length; k++){
-        var li_el = document.createElement('li');
-        li_el.textContent = `${products_array[k].name}: ${products_array[k].click_counter}/${products_array[k].display_counter}`;
-        ul_el.appendChild(li_el);
-      }
-      target.appendChild(ul_el);
-    }
+      var stringy_left_items = JSON.stringify(left_items); //transform products array into string
+      localStorage.setItem('left_items', stringy_left_items); // store stringy products into local storage
+      console.log('products array saved into local storage');
+      var stringy_middle_items = JSON.stringify(middle_items);
+      localStorage.setItem('middle_items', stringy_middle_items);
+      var stringy_right_items = JSON.stringify(right_items);
+      localStorage.setItem('right_items',stringy_right_items);    }
   }
 };
 
+//check if products array exists in local storage, if not, create new products.
 
-
-//init
-
-if (localStorage.getItem('products_array')){
-  var stringy_products = localStorage.getItem('products_array');
-  products_array = JSON.parse(stringy_products);
-  console.log('retrieved products from local storage');
-} else{
-
+if (localStorage.getItem('left_items')){
+  var stringy_left_products = localStorage.getItem('left_items');
+  left_items = JSON.parse(stringy_left_products);
+  console.log(left_items);}
+if(localStorage.getItem('middle_items')){
+  var stringy_middle_products = localStorage.getItem('middle_items');
+  middle_items = JSON.parse(stringy_middle_products);}
+if(localStorage.getItem('right_items')){
+  var stringy_right_products = localStorage.getItem('right_items');
+  right_items = JSON.parse(stringy_right_products);}
+// var left_items = products_array.splice(0,7);
+// var middle_items = products_array.splice(0,7);
+// var right_items = products_array.splice(0,6);
+else{
   new Product ('Luggage bags', './img/bag.jpg');
   new Product ('Bathroom Stand','./img/bathroom.jpg');
   new Product ('Banana Cutter','./img/banana.jpg');
@@ -215,23 +247,15 @@ if (localStorage.getItem('products_array')){
   new Product ('USB','./img/usb.gif');
   new Product ('Watering can','./img/water-can.jpg');
   new Product ('Wine Glass','./img/wine-glass.jpg');
+  var left_items = products_array.splice(0,7);
+  var middle_items = products_array.splice(0,7);
+  var right_items = products_array.splice(0,6);
 }
 
+pick_new_products();
 
-currently_displayed_left_product = products_array[0];
-currently_displayed_middle_product = products_array[1];
-currently_displayed_right_product = products_array[2];
-
-render_product(products_array[0],left_img,left_h2);
-render_product(products_array[1],middle_img,middle_h2);
-render_product(products_array[2],right_img,right_h2);
-
-products_array[0].display_counter= 1;
-products_array[1].display_counter = 1;
-products_array[2].display_counter = 1;
 
 
 //render results
 all_products.addEventListener('click',handle_click_on_product);
-
 
